@@ -1,9 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".vediostream.view.VedioDetailActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <com.google.android.exoplayer2.ui.PlayerView
+        android:id="@+id/player_view"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/video_detail_title_tv"
+        android:layout_below="@+id/player_view"
+        android:textSize="@dimen/medium_text_size"
+        android:textColor="@color/black"
+        android:layout_marginLeft="@dimen/small_margin"
+        style="@style/Casual"
+        android:layout_marginTop="@dimen/small_margin"
+        android:text="Title"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:id="@+id/video_detail_description"
+        android:textSize="@dimen/small_text_size"
+        android:layout_below="@+id/video_detail_title_tv"
+        android:layout_marginTop="@dimen/small_margin"/>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/video_list_recycler_view"
+        android:layout_below="@+id/video_detail_description"
+        android:layout_marginTop="@dimen/small_margin"/>
+
+</RelativeLayout>

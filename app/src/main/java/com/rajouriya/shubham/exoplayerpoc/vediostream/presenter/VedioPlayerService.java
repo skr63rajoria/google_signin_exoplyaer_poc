@@ -1,4 +1,8 @@
 package com.rajouriya.shubham.exoplayerpoc.vediostream.presenter;
 
-public class VedioPlayerService {
+public interface VedioPlayerService {
+    public void onVideoStartPlaying();
+    public void onVideoPlayError();
+    public void onVideoPause();
+
 }

@@ -2,7 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/small_margin">
 
     <ImageView
@@ -30,6 +30,12 @@
             android:maxLines="2"
             android:text="Video description"
             android:layout_below="@+id/video_thumbnail_title_tv"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/video_thumbnail_description"
+            android:layout_marginTop="2dp"
+            android:background="@color/black"/>
 
 
     </RelativeLayout>

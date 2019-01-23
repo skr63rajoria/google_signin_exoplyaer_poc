@@ -3,6 +3,7 @@ package com.rajouriya.shubham.exoplayerpoc.auth.presenter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -11,16 +12,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 public class GoogleSignUpProvider {
     private static GoogleSignUpProvider mGoogleSignUpProvider = null;
     private Context mContext;
-    private GoogleSignInClient mGoogleSignInClient;
+    private static GoogleSignInClient mGoogleSignInClient;
     private GoogleSignInAccount account;
     private int RC_SIGN_IN = 1;
     private LoginService loginService;
-
 
     private GoogleSignUpProvider(Context mContext,  LoginService loginService) {
         this.mContext = mContext;
@@ -62,6 +63,21 @@ public class GoogleSignUpProvider {
             // The ApiException status code indicates the detailed failure reason.
             loginService.onLoginSuccess(e.getMessage());
         }
+    }
+
+    public static void logoutUser(final Context mContext){
+        //if(mGoogleSignInClient == null){
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestEmail()
+                    .build();
+            mGoogleSignInClient = GoogleSignIn.getClient(mContext, gso);
+      //  }
+        mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Toast.makeText(mContext, "Logout done", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }

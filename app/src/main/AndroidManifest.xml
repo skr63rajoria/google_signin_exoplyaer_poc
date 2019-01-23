@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.rajouriya.shubham.exoplayerpoc">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission  android:name="android.permission.WRITE_EXTERNAL_STORAGE" ></uses-permission>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,15 +14,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Custon_No_action_bar">
-        <activity android:name=".auth.view.SignInSignUpActivity">
+        <activity android:name=".auth.view.SignInSignUpActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".vediostream.view.VedioListActivity" />
-        <activity android:name=".vediostream.view.VedioDetailActivity"></activity>
+        <activity android:name=".vediostream.view.VedioListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".vediostream.view.VedioDetailActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

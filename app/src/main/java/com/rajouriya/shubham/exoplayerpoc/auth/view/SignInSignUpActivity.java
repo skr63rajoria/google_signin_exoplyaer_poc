@@ -17,8 +17,10 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.rajouriya.shubham.exoplayerpoc.R;
+import com.rajouriya.shubham.exoplayerpoc.Util.Utility;
 import com.rajouriya.shubham.exoplayerpoc.auth.presenter.GoogleSignUpProvider;
 import com.rajouriya.shubham.exoplayerpoc.auth.presenter.LoginService;
+import com.rajouriya.shubham.exoplayerpoc.vediostream.view.VedioListActivity;
 
 public class SignInSignUpActivity extends AppCompatActivity implements LoginService {
     SignInButton googleSign;
@@ -74,6 +76,9 @@ public class SignInSignUpActivity extends AppCompatActivity implements LoginServ
     @Override
     public void onLoginSuccess(String msg) {
         Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+        Utility.savePref(mContext,"user_name",msg);
+        startActivity(new Intent(mContext,VedioListActivity.class));
+        finish();
 
     }
 
@@ -86,6 +91,8 @@ public class SignInSignUpActivity extends AppCompatActivity implements LoginServ
     @Override
     public void ifAlreadyActiveUser(String msg) {
         Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
-
+        Utility.savePref(mContext,"user_name",msg);
+        startActivity(new Intent(mContext,VedioListActivity.class));
+        finish();
     }
 }

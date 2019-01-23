@@ -17,6 +17,15 @@ public class VideoModel {
     private String title;
     @SerializedName("url")
     private String url;
+    private String lastPlayerDuration;
+
+    public String getLastPlayerDuration() {
+        return lastPlayerDuration;
+    }
+
+    public void setLastPlayerDuration(String lastPlayerDuration) {
+        this.lastPlayerDuration = lastPlayerDuration;
+    }
 
     public String getDescription() {
         return description;
