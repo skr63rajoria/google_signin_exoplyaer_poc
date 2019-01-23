@@ -37,13 +37,13 @@ import com.rajouriya.shubham.exoplayerpoc.vediostream.presenter.RecyclerClickLis
 
 import java.util.List;
 
-public class VedioDetailActivity extends AppCompatActivity implements Player.EventListener,RecyclerClickListesner {
+public class VedioDetailActivity extends AppCompatActivity implements Player.EventListener, RecyclerClickListesner {
     private PlayerView playerView;
     private SimpleExoPlayer player;
     private Context mContext;
-    private String url,videoId;
+    private String url, videoId;
     private RecyclerView videoListRecyclerView;
-    private TextView videoTitle,videoDescription;
+    private TextView videoTitle, videoDescription;
     private VideoModel currentVideo;
     private DefaultDataSourceFactory defaultDataSourceFactory;
     private int startDuration = 0;
@@ -54,32 +54,32 @@ public class VedioDetailActivity extends AppCompatActivity implements Player.Eve
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vedio_detail);
-        playerView = (PlayerView)findViewById(R.id.player_view);
-        videoTitle = (TextView)findViewById(R.id.video_detail_title_tv);
-        videoDescription = (TextView)findViewById(R.id.video_detail_description);
+        playerView = (PlayerView) findViewById(R.id.player_view);
+        videoTitle = (TextView) findViewById(R.id.video_detail_title_tv);
+        videoDescription = (TextView) findViewById(R.id.video_detail_description);
         videoListRecyclerView = (RecyclerView) findViewById(R.id.video_list_recycler_view);
         mContext = this;
         Intent intent = getIntent();
-        if(intent.hasExtra("vedio_url") && intent.hasExtra("vedio_id")){
+        if (intent.hasExtra("vedio_url") && intent.hasExtra("vedio_id")) {
             url = intent.getStringExtra("vedio_url");
             videoId = intent.getStringExtra("vedio_id");
             currentVieoId = videoId;
-            currentVideo = VideoTable.getVideoByID(videoId,VideoDatabase.getDBInstance(mContext).getWritableDatabase());
+            currentVideo = VideoTable.getVideoByID(videoId, VideoDatabase.getDBInstance(mContext).getWritableDatabase());
             setLastPlayerTime(currentVideo);
             videoTitle.setText(currentVideo.getTitle());
             videoDescription.setText(currentVideo.getDescription());
         }
-        List<VideoModel> videoModels = VideoTable.getAllVideosExcludeSelectedVideo(videoId,VideoDatabase.getDBInstance(mContext).getWritableDatabase());
+        List<VideoModel> videoModels = VideoTable.getAllVideosExcludeSelectedVideo(videoId, VideoDatabase.getDBInstance(mContext).getWritableDatabase());
         makeRecyclerAniamtion();
-        VideoListAdapter videoListAdapter = new VideoListAdapter(videoModels,mContext,R.layout.video_detail_recycler_cell,this);
+        VideoListAdapter videoListAdapter = new VideoListAdapter(videoModels, mContext, R.layout.video_detail_recycler_cell, this);
         videoListRecyclerView.setAdapter(videoListAdapter);
 
     }
 
     private void setLastPlayerTime(VideoModel currentVideo) {
-        if(currentVideo.getLastPlayerDuration() != null && !currentVideo.getLastPlayerDuration().equals("")){
+        if (currentVideo.getLastPlayerDuration() != null && !currentVideo.getLastPlayerDuration().equals("")) {
             startDuration = Integer.parseInt(currentVideo.getLastPlayerDuration());
-        }else {
+        } else {
             startDuration = 0;
         }
     }
@@ -87,9 +87,9 @@ public class VedioDetailActivity extends AppCompatActivity implements Player.Eve
     @Override
     protected void onStart() {
         super.onStart();
-        player = ExoPlayerFactory.newSimpleInstance(this,new DefaultTrackSelector());
+        player = ExoPlayerFactory.newSimpleInstance(this, new DefaultTrackSelector());
         playerView.setPlayer(player);
-        defaultDataSourceFactory = new DefaultDataSourceFactory(this,Util.getUserAgent(this,"ExoPlayer"));
+        defaultDataSourceFactory = new DefaultDataSourceFactory(this, Util.getUserAgent(this, "ExoPlayer"));
         startPlayer(url);
     }
 
@@ -98,13 +98,13 @@ public class VedioDetailActivity extends AppCompatActivity implements Player.Eve
         player.prepare(mediaSource);
         player.setPlayWhenReady(true);
         player.addListener(this);
-        for(int i = 0;i< videoListRecyclerView.getChildCount();i++){
+        for (int i = 0; i < videoListRecyclerView.getChildCount(); i++) {
             View view = videoListRecyclerView.getChildAt(i);
             TextView titleTv = view.findViewById(R.id.video_thumbnail_title_tv);
-            VideoModel videoModel = (VideoModel)view.getTag();
+            VideoModel videoModel = (VideoModel) view.getTag();
             if (videoModel.getId() == currentVieoId) {
                 titleTv.setTextColor(getResources().getColor(R.color.red));
-            }else {
+            } else {
                 titleTv.setTextColor(getResources().getColor(R.color.black));
             }
         }
@@ -143,7 +143,7 @@ public class VedioDetailActivity extends AppCompatActivity implements Player.Eve
 
     @Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-        if(playWhenReady){
+        if (playWhenReady) {
             player.seekTo(startDuration);
         }
 
@@ -183,12 +183,12 @@ public class VedioDetailActivity extends AppCompatActivity implements Player.Eve
     public void onRecyclerClildClick(View view) {
         //VideoModel  tempVideoTable = VideoTable.getVideoByID(videoId,VideoDatabase.getDBInstance(mContext).getWritableDatabase());
         contentPosition = player.getContentPosition();
-        VideoTable.updateSingleVideo(videoId,contentPosition+"",VideoDatabase.getDBInstance(mContext).getWritableDatabase());
+        VideoTable.updateSingleVideo(videoId, contentPosition + "", VideoDatabase.getDBInstance(mContext).getWritableDatabase());
         VideoModel videoModel = (VideoModel) view.getTag();
         videoId = videoModel.getId();
         videoTitle.setText(videoModel.getTitle());
         videoDescription.setText(videoModel.getDescription());
-        currentVideo = VideoTable.getVideoByID(videoModel.getId(),VideoDatabase.getDBInstance(mContext).getWritableDatabase());
+        currentVideo = VideoTable.getVideoByID(videoModel.getId(), VideoDatabase.getDBInstance(mContext).getWritableDatabase());
         setLastPlayerTime(currentVideo);
         startPlayer(videoModel.getUrl());
     }
@@ -197,6 +197,6 @@ public class VedioDetailActivity extends AppCompatActivity implements Player.Eve
     protected void onPause() {
         super.onPause();
         contentPosition = player.getContentPosition();
-        VideoTable.updateSingleVideo(videoId,contentPosition+"",VideoDatabase.getDBInstance(mContext).getWritableDatabase());
+        VideoTable.updateSingleVideo(videoId, contentPosition + "", VideoDatabase.getDBInstance(mContext).getWritableDatabase());
     }
 }
